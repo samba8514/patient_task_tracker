@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head><title>Tasks</title></head>
+<body>
+  <h1>Task List</h1>
+  <table border="1">
+    <tr><th>Patient</th><th>Description</th><th>Due Date</th><th>Status</th><th>Action</th></tr>
+    {% for task in tasks %}
+    <tr style="background-color: {{ color_for_deadline(task.due_date) }};">
+      <td>{{ task.patient.name }}</td>
+      <td>{{ task.description }}</td>
+      <td>{{ task.due_date }}</td>
+      <td>{{ 'Done' if task.completed else 'Pending' }}</td>
+      <td>
+        {% if not task.completed %}
+        <form action="{{ url_for('complete', task_id=task.id) }}" method="post">
+          <button type="submit">Complete</button>
+        </form>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  <a href="{{ url_for('logout') }}">Logout</a>
+</body>
+</html>
